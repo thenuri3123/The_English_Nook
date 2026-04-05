@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/db.php';
-$pageTitle = 'Register | The English Nook';
+$pageTitle = 'Register';
+$message = '';
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -13,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Please enter a valid full name.';
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Please enter a valid email address.';
+        $errors[] = 'Please enter a valid email.';
     }
     if (strlen($password) < 8) {
         $errors[] = 'Password must be at least 8 characters.';
@@ -23,8 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errors) {
-        $stmt = $pdo->prepare('INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)');
+        $sql = 'INSERT INTO users (full_name, email, password_hash, role) VALUES (?, ?, ?, ?)';
         try {
+            $stmt = $pdo->prepare($sql);
             $stmt->execute([$fullName, $email, password_hash($password, PASSWORD_DEFAULT), $role]);
             header('Location: login.php?registered=1');
             exit;
@@ -34,37 +36,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-include __DIR__ . '/../includes/header.php';
+include __DIR__ . '/header.php';
 ?>
-<section class="card form-card">
-    <h1>Create Your Account</h1>
-    <p>Register once and access all your classes in one dashboard.</p>
-
-    <?php if ($errors): ?>
-        <div class="alert error"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
-    <?php endif; ?>
-
-    <form method="post">
-        <label>Full Name
-            <input type="text" name="full_name" required>
-        </label>
-
-        <label>Email
-            <input type="email" name="email" required>
-        </label>
-
-        <label>Password
-            <input type="password" name="password" minlength="8" required>
-        </label>
-
-        <label>Role
-            <select name="role">
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-            </select>
-        </label>
-
-        <button class="btn" type="submit">Register</button>
-    </form>
-</section>
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<h1>Create Account</h1>
+<?php if ($errors): ?>
+    <div class="alert error"><?php echo htmlspecialchars(implode(' ', $errors)); ?></div>
+<?php endif; ?>
+<form method="post" class="form-card">
+    <label>Full Name
+        <input type="text" name="full_name" required>
+    </label>
+    <label>Email
+        <input type="email" name="email" required>
+    </label>
+    <label>Password
+        <input type="password" name="password" minlength="8" required>
+    </label>
+    <label>Role
+        <select name="role">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+    </label>
+    <button class="btn" type="submit">Register</button>
+</form>
+<?php include __DIR__ . '/footer.php'; ?>
