@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The English Nook | Learn & Play</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+</head>
+
+<body class="adult-mode">
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <span id="logo-icon">🦉</span> 
+                <span id="logo-text">The English Nook</span>
+            </div>
+
+            <div class="mode-switch-container">
+                <span class="mode-label">Scholar 🎓</span>
+                <label class="switch">
+                    <input type="checkbox" id="ageToggle">
+                    <span class="slider round"></span>
+                </label>
+                <span class="mode-label">Explorer 🎈</span>
+            </div>
+
+            <nav>
+                <button class="nav-btn active" onclick="showSection('home')">Home</button>
+
+                <button class="nav-btn adult-only" onclick="showSection('grammar')">Grammar 📘</button>
+                <button class="nav-btn adult-only" onclick="showSection('lit')">Literature ✒️</button>
+                <button class="nav-btn adult-only" onclick="showSection('vocab')">Vocab Vault</button>
+                <button class="nav-btn adult-only" onclick="showSection('classes')">Classes</button>
+
+                <button class="nav-btn kids-only" onclick="showSection('classes')" style="display:none;">Junior Classes 🎒</button>
+                <button class="nav-btn kids-only" onclick="showSection('kids-hub')" style="display:none;">Play Zone 🎈</button>
+
+                <a href="php/login.php" id="login-link" class="nav-btn">Log In 🚪</a>
+                <a href="php/register.php" id="register-link" class="nav-btn">Sign Up 📝</a>
+                <span id="welcome-msg" style="display:none; font-weight:bold; color:var(--primary-color); margin-left:15px;"></span>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        
+        <section id="home" class="section active-section">
+            <div class="hero">
+                <h1 id="hero-title">Master the English Language.</h1>
+                <p id="hero-subtitle">Refine your grammar, expand your vocabulary, and explore literature.</p>
+                <button class="cta-btn" onclick="startJourney()">Start Learning</button>
+            </div>
+        </section>
+
+        <section id="learn" class="section hidden-section">
+            <h2 id="learn-heading">The Library</h2>
+            <p class="section-desc">Select a topic to begin studying.</p>
+            
+            <div class="card-grid" id="lesson-grid">
+                <p>Loading Lessons...</p> 
+            </div>
+        </section>
+
+        <section id="grammar" class="section hidden-section">
+            <h2>Grammar Mechanics</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Tenses ⏳</h3>
+                    <p>Understand the difference between Past Simple and Present Perfect.</p>
+                </div>
+                <div class="card">
+                    <h3>Punctuation ✍️</h3>
+                    <p>Mastering the Oxford Comma, Semicolons, and Em-dashes.</p>
+                </div>
+                <div class="card">
+                    <h3>Active vs Passive 🗣️</h3>
+                    <p>"The mistake was made" vs "I made a mistake".</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lit" class="section hidden-section">
+            <h2>Literature Analysis</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Literary Devices</h3>
+                    <p>Metaphor, Simile, Alliteration, and Hyperbole explained.</p>
+                </div>
+                <div class="card">
+                    <h3>Poetry Analysis</h3>
+                    <p>How to dissect rhythm, meter, and tone in sonnets.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="play" class="section hidden-section">
+            <h2 id="play-heading">The Game Zone</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <h3>Word Scramble</h3>
+                    <p>Unscramble the letters to find the hidden word.</p>
+                    <button onclick="startGame('scramble')">Play Now</button>
+                </div>
+                <div class="game-card">
+                    <h3>Poetry Puzzle</h3>
+                    <p>Arrange the lines to complete the poem.</p>
+                    <button onclick="startGame('poetry')">Play Now</button>
+                </div>
+            </div> 
+        </section>
+
+        <section id="zoo" class="section hidden-section">
+            <button class="back-btn" onclick="showSection('kids-hub')">⬅ Back to Play Zone</button>           
+            <h2 id="zoo-heading">Welcome to the Zoo! 🦁</h2>
+            <p class="section-desc">Click an animal to hear its name!</p>      
+            <div class="zoo-grid"></div> 
+        </section>
+
+        <section id="colors" class="section hidden-section">
+            <button class="back-btn" onclick="showSection('kids-hub')">⬅ Back to Play Zone</button>
+            <h2 style="text-align:center;">The Rainbow Room 🎨</h2>
+            <p class="section-desc">Click a paint blob to learn the color!</p>           
+            <div class="color-grid"></div>
+        </section>
+
+        <section id="vocab" class="section hidden-section">
+            <h2>Your Vocabulary Vault</h2>
+            <div class="vocab-input-area">
+                <input type="text" id="new-word" placeholder="Add a new word...">
+                <button id="add-word-btn">Save</button>
+            </div>
+            <ul id="vocab-list">
+                </ul>
+        </section>
+
+        <section id="classes" class="section hidden-section">
+    
+            <div class="adult-only">
+                <div class="syllabus-header">
+                    <h2>Academic Courses 🎓</h2>
+                    <p>Comprehensive English training following the Local Syllabus & International Standards.</p>
+                </div>
+
+                <div class="course-grid">
+                    <div class="course-card">
+                        <span class="badge">Foundation</span>
+                        <h3>Grade 06</h3>
+                        <p>Grammar basics and sentence structures.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Foundation</span>
+                        <h3>Grade 07</h3>
+                        <p>Reading comprehension and vocabulary expansion.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Junior</span>
+                        <h3>Grade 08</h3>
+                        <p>Creative writing and speech practice.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Junior</span>
+                        <h3>Grade 09</h3>
+                        <p>Preparing for O/L literature and essays.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+
+                    <div class="course-card highlight-card">
+                        <span class="badge exam-badge">O/L Prep</span>
+                        <h3>Grade 10</h3>
+                        <p>Past papers, formal writing, and error correction.</p>
+                        <button class="enroll-btn">Join Class</button>
+                    </div>
+                    <div class="course-card highlight-card">
+                        <span class="badge exam-badge">O/L Prep</span>
+                        <h3>Grade 11</h3>
+                        <p>Targeted revision and exam strategies for O/Ls.</p>
+                        <button class="enroll-btn">Join Class</button>
+                    </div>
+
+                    <div class="course-card advanced-card">
+                        <span class="badge al-badge">A/L General</span>
+                        <h3>Advanced Level</h3>
+                        <p>General English for Grade 12 & 13 students.</p>
+                        <button class="enroll-btn">Join Class</button>
+                    </div>
+
+                    <div class="course-card ielts-card">
+                        <span class="badge ielts-badge">International</span>
+                        <h3>IELTS Preparation</h3>
+                        <p>Academic & General Training modules.</p>
+                        <button class="enroll-btn">Book Demo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kids-only" style="display: none;">
+                <div class="syllabus-header">
+                    <h2>Junior Classroom 🎒</h2>
+                    <p>Primary Syllabus (Grades 1-5) & Spoken English</p>
+                </div>
+
+                <div class="course-grid">
+                    <div class="course-card">
+                        <span class="badge">Primary</span>
+                        <h3>Grade 1</h3>
+                        <p>Alphabet, Phonics, and First Words.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Primary</span>
+                        <h3>Grade 2</h3>
+                        <p>Simple Sentences & Story Reading.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Primary</span>
+                        <h3>Grade 3</h3>
+                        <p>Grammar Basics & Creative Writing.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card">
+                        <span class="badge">Primary</span>
+                        <h3>Grade 4</h3>
+                        <p>Reading Comprehension & Dictation.</p>
+                        <button class="enroll-btn">View Syllabus</button>
+                    </div>
+                    <div class="course-card highlight-card">
+                        <span class="badge exam-badge">Scholarship Prep</span>
+                        <h3>Grade 5</h3>
+                        <p>Essential prep for the Grade 5 Scholarship Exam.</p>
+                        <button class="enroll-btn">Join Class</button>
+                    </div>
+
+                    <div class="course-card ielts-card">
+                        <span class="badge ielts-badge">Speaking</span>
+                        <h3>KIDS Spoken English</h3>
+                        <p>Confidence building & conversation practice.</p>
+                        <button class="enroll-btn">Join Club</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="kids-hub" class="section hidden-section">
+            <div class="syllabus-header">
+                <h2>The Play Zone 🎈</h2>
+                <p>Choose your adventure!</p>
+            </div>
+
+            <div class="adventure-grid">
+
+                <div class="adventure-card" onclick="showSection('naughty-quiz')">
+                    <div class="icon">🤪</div>
+                    <h3>Crazy Grammar</h3>
+                    <p>Catch the button if you can!</p>
+                    <button class="fun-btn">Play Now</button>
+                </div>
+            
+                <div class="adventure-card" onclick="showSection('zoo')">
+                    <div class="icon">🦁</div>
+                    <h3>The Talking Zoo</h3>
+                    <p>Learn animal names & sounds.</p>
+                    <button class="fun-btn">Visit Zoo</button>
+                </div>
+
+                <div class="adventure-card" onclick="showSection('colors')">
+                    <div class="icon">🎨</div>
+                    <h3>Rainbow Room</h3>
+                    <p>Learn colors with magic paint.</p>
+                    <button class="fun-btn">Start Painting</button>
+                </div>
+
+                <div class="adventure-card">
+                    <div class="icon">🐯</div>
+                    <h3>Jungle Phonics</h3>
+                    <p>A-B-C sounds with Tiger & Friends.</p>
+                    <button class="fun-btn">Coming Soon</button>
+                </div>
+
+                <div class="adventure-card">
+                    <div class="icon">📚</div>
+                    <h3>Story Time</h3>
+                    <p>Read "The Little Hero" together.</p>
+                    <button class="fun-btn">Coming Soon</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="naughty-quiz" class="section hidden-section">
+            <button class="back-btn" onclick="showSection('kids-hub')">⬅ Back to Play Zone</button>
+
+            <div class="quiz-container">
+                <h2 class="cute-question">Is "JUMP" a Noun? 🤔</h2>
+                
+                <div class="cute-buttons">
+                    <button id="runaway-btn" onmouseover="moveButton()">YES</button>
+                    
+                    <button id="correct-btn" onclick="showSuccess()">NO</button>
+                </div>
+
+                <div id="success-msg" class="hidden-message">
+                    <img src="happy-owl.gif" alt="Happy Owl" class="cute-gif">
+                    <h3>Yay! You knew it! 🎉</h3>
+                    <p>"Jump" is a VERB (Action Word)!</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The English Nook. Designed by Thenuri Pramuditha.</p>
+    </footer>
+
+    <script src="js/content.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>
