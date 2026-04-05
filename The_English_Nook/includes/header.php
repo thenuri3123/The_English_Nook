@@ -6,6 +6,17 @@ if (session_status() === PHP_SESSION_NONE) {
 $currentPage = basename($_SERVER['PHP_SELF']);
 $isPhpPage = strpos($_SERVER['PHP_SELF'], '/php/') !== false;
 $prefix = $isPhpPage ? '../' : '';
+$myClasses = [];
+
+if (isset($_SESSION['user_id']) && (($_SESSION['role'] ?? '') === 'student')) {
+    $dbFile = __DIR__ . '/../php/db.php';
+    if (file_exists($dbFile)) {
+        require $dbFile;
+        $stmt = $pdo->prepare('SELECT c.id, c.title FROM enrollments e JOIN classes c ON c.id = e.class_id WHERE e.user_id = ? ORDER BY e.enrolled_at DESC LIMIT 8');
+        $stmt->execute([(int)$_SESSION['user_id']]);
+        $myClasses = $stmt->fetchAll();
+    }
+}
 
 function isActive(string $file, string $currentPage): string {
     return $file === $currentPage ? 'active' : '';
@@ -37,8 +48,22 @@ function isActive(string $file, string $currentPage): string {
 
         <nav class="nav-links">
             <a class="nav-link <?php echo isActive('index.php', $currentPage); ?>" href="<?php echo $prefix; ?>index.php">Home</a>
+            <a class="nav-link <?php echo isActive('classes.php', $currentPage); ?>" href="<?php echo $prefix; ?>php/classes.php">Join Classes</a>
+
             <?php if (isset($_SESSION['user_id'])): ?>
                 <a class="nav-link <?php echo isActive('dashboard.php', $currentPage); ?>" href="<?php echo $prefix; ?>php/dashboard.php">Dashboard</a>
+
+                <?php if ($myClasses): ?>
+                    <div class="menu-group">
+                        <button class="nav-link menu-btn" type="button">My Classes ▾</button>
+                        <div class="menu-list">
+                            <?php foreach ($myClasses as $classItem): ?>
+                                <a href="<?php echo $prefix; ?>php/class_details.php?id=<?php echo (int)$classItem['id']; ?>"><?php echo htmlspecialchars($classItem['title']); ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <a class="nav-link" href="<?php echo $prefix; ?>php/logout.php">Logout</a>
             <?php else: ?>
                 <a class="nav-link <?php echo isActive('login.php', $currentPage); ?>" href="<?php echo $prefix; ?>php/login.php">Login</a>
@@ -56,14 +81,23 @@ function isActive(string $file, string $currentPage): string {
 
     window.addEventListener('DOMContentLoaded', function() {
         const toggle = document.getElementById('themeToggle');
-        if (!toggle) return;
-        toggle.checked = mode === 'kids';
-        toggle.addEventListener('change', function() {
-            const selected = toggle.checked ? 'kids' : 'adult';
-            localStorage.setItem('nook_mode', selected);
-            document.body.classList.toggle('kids-mode', selected === 'kids');
-            document.body.classList.toggle('adult-mode', selected !== 'kids');
-        });
+        if (toggle) {
+            toggle.checked = mode === 'kids';
+            toggle.addEventListener('change', function() {
+                const selected = toggle.checked ? 'kids' : 'adult';
+                localStorage.setItem('nook_mode', selected);
+                document.body.classList.toggle('kids-mode', selected === 'kids');
+                document.body.classList.toggle('adult-mode', selected !== 'kids');
+            });
+        }
+
+        const menuBtn = document.querySelector('.menu-btn');
+        const menuList = document.querySelector('.menu-list');
+        if (menuBtn && menuList) {
+            menuBtn.addEventListener('click', function() {
+                menuList.classList.toggle('open');
+            });
+        }
     });
 })();
 </script>

@@ -123,3 +123,39 @@ body.adult-mode .exam-level {
 body.kids-mode .exam-level {
     background: #fff9e8;
 }
+
+.menu-group {
+    position: relative;
+}
+
+.menu-btn {
+    background: none;
+    font-family: var(--font-main);
+    cursor: pointer;
+}
+
+.menu-list {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    min-width: 220px;
+    background: var(--card-bg);
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    display: none;
+    z-index: 90;
+}
+
+.menu-list.open { display: block; }
+
+.menu-list a {
+    display: block;
+    padding: 9px 12px;
+    text-decoration: none;
+    color: var(--text-color);
+    border-bottom: 1px solid #efefef;
+}
+
+.menu-list a:last-child { border-bottom: none; }
+.menu-list a:hover { background: #f7f7f7; }
