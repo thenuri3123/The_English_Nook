@@ -29,7 +29,7 @@ $listStmt = $pdo->prepare('SELECT id, title FROM lessons WHERE class_id = ? ORDE
 $listStmt->execute([$classId]);
 $lessons = $listStmt->fetchAll();
 
-include __DIR__ . '/header.php';
+include __DIR__ . '/../includes/header.php';
 ?>
 <h1>Manage Lessons: <?php echo htmlspecialchars($class['title']); ?></h1>
 <form method="post" class="form-card">
@@ -40,10 +40,38 @@ include __DIR__ . '/header.php';
     <button class="btn" type="submit">Add Lesson</button>
 </form>
 
+<?php 
+$studentStmt = $pdo->prepare('SELECT u.full_name, e.payment_status FROM enrollments e JOIN users u ON u.id = e.user_id WHERE e.class_id = ?');
+$studentStmt->execute([$classId]);
+$students = $studentStmt->fetchAll();
+?>
+
+<h2>Enrolled Students</h2>
+<?php if ($students): ?>
+    <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+        <thead>
+            <tr style="text-align:left; border-bottom: 2px solid #ddd;">
+                <th style="padding:10px;">Student Name</th>
+                <th style="padding:10px;">Payment Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($students as $s): ?>
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding:10px;"><?php echo htmlspecialchars($s['full_name']); ?></td>
+                    <td style="padding:10px;"><span class="badge" style="background:<?php echo $s['payment_status'] === 'paid' ? '#e8f5e9' : '#fff3e0'; ?>; color:<?php echo $s['payment_status'] === 'paid' ? '#2e7d32' : '#e65100'; ?>;"><?php echo htmlspecialchars($s['payment_status']); ?></span></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>No students enrolled yet.</p>
+<?php endif; ?>
+
 <h2>Existing Lessons</h2>
 <ul>
     <?php foreach ($lessons as $lesson): ?>
         <li><a href="lesson.php?id=<?php echo (int)$lesson['id']; ?>"><?php echo htmlspecialchars($lesson['title']); ?></a></li>
     <?php endforeach; ?>
 </ul>
-<?php include __DIR__ . '/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

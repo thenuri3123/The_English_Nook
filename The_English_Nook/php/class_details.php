@@ -15,7 +15,7 @@ $lessonStmt = $pdo->prepare('SELECT id, title, has_quiz FROM lessons WHERE class
 $lessonStmt->execute([$classId]);
 $lessons = $lessonStmt->fetchAll();
 
-include __DIR__ . '/header.php';
+include __DIR__ . '/../includes/header.php';
 ?>
 <h1><?php echo htmlspecialchars($class['title']); ?></h1>
 <p><?php echo htmlspecialchars($class['short_description']); ?></p>
@@ -30,4 +30,4 @@ include __DIR__ . '/header.php';
     <?php if ($lesson['has_quiz']): ?>(Quiz)<?php endif; ?></li>
 <?php endforeach; ?>
 </ul>
-<?php include __DIR__ . '/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

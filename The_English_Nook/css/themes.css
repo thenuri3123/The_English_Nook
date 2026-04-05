@@ -1,0 +1,33 @@
+/* =========================================
+   1. THEME VARIABLES (The Magic Switch)
+   ========================================= */
+:root {
+    /* DEFAULT (Adult/Scholar Mode) - Dark Academia Vibe */
+    --bg-color: #f4f1ea;        /* Parchment White */
+    --text-color: #2c2c2c;      /* Charcoal */
+    --primary-color: #8b4513;   /* Leather Brown */
+    --secondary-color: #d4c4a8; /* Beige accent */
+    --card-bg: #ffffff;
+    --font-main: 'Merriweather', serif; /* Elegant Serif Font */
+    --border-radius: 4px;       /* Sharp corners for adults */
+}
+
+/* KIDS MODE OVERRIDE */
+body.kids-mode {
+    --bg-color: #e0f7fa;        /* Light Cyan */
+    --text-color: #01579b;      /* Deep Blue */
+    --primary-color: #ff9800;   /* Bright Orange */
+    --secondary-color: #4dd0e1; /* Bright Teal accent */
+    --card-bg: #ffffff;
+    --font-main: 'Comic Neue', cursive; /* Fun Rounded Font */
+    --border-radius: 20px;      /* Round corners for kids */
+}
+
+/* Optional: Additional themes like Dark Mode can be added here */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --primary-color: #bb86fc;
+    --secondary-color: #2c2c2c;
+    --card-bg: #1e1e1e;
+}

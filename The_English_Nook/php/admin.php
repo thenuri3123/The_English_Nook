@@ -14,13 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('DELETE FROM classes WHERE id = ?');
         $stmt->execute([(int)$_POST['class_id']]);
     }
+    if ($action === 'delete_lesson') {
+        $stmt = $pdo->prepare('DELETE FROM lessons WHERE id = ?');
+        $stmt->execute([(int)$_POST['lesson_id']]);
+    }
 }
 
 $users = $pdo->query('SELECT id, full_name, email, role FROM users ORDER BY id DESC')->fetchAll();
 $classes = $pdo->query('SELECT id, title, level, price_usd FROM classes ORDER BY id DESC')->fetchAll();
 $lessons = $pdo->query('SELECT id, title, class_id FROM lessons ORDER BY id DESC LIMIT 20')->fetchAll();
 
-include __DIR__ . '/header.php';
+include __DIR__ . '/../includes/header.php';
 ?>
 <h1>Admin Panel</h1>
 
@@ -49,10 +53,15 @@ include __DIR__ . '/header.php';
 <?php endforeach; ?>
 
 <h2>Recent Lessons</h2>
-<ul>
-    <?php foreach ($lessons as $lesson): ?>
-        <li>#<?php echo (int)$lesson['id']; ?> - <?php echo htmlspecialchars($lesson['title']); ?> (Class <?php echo (int)$lesson['class_id']; ?>)</li>
-    <?php endforeach; ?>
-</ul>
+<?php foreach ($lessons as $lesson): ?>
+<article class="panel">
+    <p>#<?php echo (int)$lesson['id']; ?> - <?php echo htmlspecialchars($lesson['title']); ?> (Class <?php echo (int)$lesson['class_id']; ?>)</p>
+    <form method="post">
+        <input type="hidden" name="action" value="delete_lesson">
+        <input type="hidden" name="lesson_id" value="<?php echo (int)$lesson['id']; ?>">
+        <button class="btn danger" type="submit">Delete Lesson</button>
+    </form>
+</article>
+<?php endforeach; ?>
 
-<?php include __DIR__ . '/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

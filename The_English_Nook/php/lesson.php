@@ -34,7 +34,7 @@ $quizStmt = $pdo->prepare('SELECT id, question_text, option_a, option_b, option_
 $quizStmt->execute([$lessonId]);
 $quizRows = $quizStmt->fetchAll();
 
-include __DIR__ . '/header.php';
+include __DIR__ . '/../includes/header.php';
 ?>
 <h1><?php echo htmlspecialchars($lesson['title']); ?></h1>
 <p><?php echo nl2br(htmlspecialchars($lesson['content'])); ?></p>
@@ -96,4 +96,4 @@ function gradeQuiz() {
     document.getElementById('score-field').value = score;
 }
 </script>
-<?php include __DIR__ . '/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
