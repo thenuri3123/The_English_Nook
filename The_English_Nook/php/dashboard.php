@@ -64,6 +64,7 @@ include __DIR__ . '/../includes/header.php';
 <?php elseif ($role === 'teacher'): ?>
     <section class="card">
         <h2>Manage Your Classes</h2>
+        <a href="create_class.php" class="btn" style="margin-bottom: 15px;">+ Create New Class</a>
         <?php if ($teacherClasses): ?>
             <ul>
                 <?php foreach ($teacherClasses as $class): ?>

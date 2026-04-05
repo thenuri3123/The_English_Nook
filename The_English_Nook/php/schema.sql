@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS classes (
     teacher_id INT NULL,
     title VARCHAR(180) NOT NULL,
     level ENUM('beginner','intermediate','advanced') NOT NULL,
+    category ENUM('scholar','explorer') NOT NULL DEFAULT 'scholar',
     short_description TEXT NOT NULL,
     live_link VARCHAR(255) DEFAULT '',
     recording_url VARCHAR(255) DEFAULT '',
