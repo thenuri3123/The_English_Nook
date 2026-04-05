@@ -1,25 +1,42 @@
-<?php
-$pageTitle = 'The English Nook | Home';
-include __DIR__ . '/includes/header.php';
-?>
-<section class="card">
-    <h1>One Theme. One Learning Experience.</h1>
-    <p>Learn English Language and Literature with a consistent, simple, and student-friendly platform.</p>
-    <a class="btn" href="php/login.php">Start Learning</a>
+<?php $pageTitle = 'The English Nook | Learning Paths'; include __DIR__ . '/php/header.php'; ?>
+<section class="hero-card">
+    <h1>Learn English Your Way</h1>
+    <p>Simple pathways for kids, school students, and advanced scholars.</p>
 </section>
 
-<section class="grid">
-    <article class="card">
-        <h2>👶 Beginner</h2>
-        <p>Alphabet, words, and simple sentences with fun practice.</p>
+<section class="path-grid">
+    <article class="path-card">
+        <h2>👶 Beginner (Kids)</h2>
+        <ul>
+            <li>Alphabet and sounds</li>
+            <li>Basic words with pictures</li>
+            <li>Simple sentence building</li>
+            <li>Fun mini quizzes</li>
+        </ul>
     </article>
-    <article class="card">
-        <h2>🎓 Intermediate</h2>
-        <p>Grammar, vocabulary, writing skills, and comprehension.</p>
+    <article class="path-card">
+        <h2>🎓 Intermediate (Students)</h2>
+        <ul>
+            <li>Grammar topics by level</li>
+            <li>Vocabulary building</li>
+            <li>Paragraph and essay writing</li>
+            <li>Reading comprehension practice</li>
+        </ul>
     </article>
-    <article class="card">
-        <h2>📚 Advanced</h2>
-        <p>Poetry, prose, criticism, and academic essay writing.</p>
+    <article class="path-card">
+        <h2>📚 Advanced (Scholars)</h2>
+        <ul>
+            <li>Poetry analysis</li>
+            <li>Prose interpretation</li>
+            <li>Literary criticism methods</li>
+            <li>Academic essay writing</li>
+        </ul>
     </article>
 </section>
-<?php include __DIR__ . '/includes/footer.php'; ?>
+
+<section class="callout">
+    <h2>Paid Class System</h2>
+    <p>Browse classes, simulate payment, enroll, and access notes, recordings, and live links in your dashboard.</p>
+    <a class="btn" href="php/classes.php">View Classes</a>
+</section>
+<?php include __DIR__ . '/php/footer.php'; ?>
